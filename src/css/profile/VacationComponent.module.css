@@ -1,5 +1,8 @@
 @value global: "../global.css";
 @value box-shadow from global;
+@value btn-color from global;
+@value third-text-color from global;
+@value disabled-btn-bg-color from global;
 
 .wrapper{
     padding: 15px;
@@ -10,8 +13,8 @@
     font-size: 12px;
     padding: 8px;
     border-radius: 5px;
-    background-color: #314353;
-    color: white;
+    background-color: #E77C22; /* bg-color of date-cards */
+    color: white; /* textcolor inside date-cards */
     display: inline-block;
     margin: 5px;
 }
@@ -20,4 +23,16 @@
     padding:25px;
     box-shadow: box-shadow;
     margin-top:15px;
+    background-color: white;
+}
+
+.collapseButton {
+    color: black !important;
+    text-transform: none !important; 
+    font-weight: normal !important
+}
+
+.collapseButton:hover {
+    cursor: pointer;
+    background: white !important;
 }

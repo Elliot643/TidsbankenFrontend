@@ -1,21 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "../../general.css";
 
-class Navbar extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
+const NavBar = (props: any) => {
     return (
       <div>
         <div className="nestedNavbar">
           <Link
             className="navbarButton"
             to={{ pathname: "/admin/users/allUsers" }}
-            style={this.props.style.allUsers}
+            style={props.style.allUsers}
             onClick={() => {
-              this.props.updateUsers();
+              props.updateUsers();
             }}
           >
             All users
@@ -23,14 +19,12 @@ class Navbar extends Component {
           <Link
             className="navbarButton"
             to={{ pathname: "/admin/users/addUser" }}
-            style={this.props.style.addUsers}
+            style={props.style.addUsers}
           >
             Add user
           </Link>
         </div>
       </div>
-    );
-  }
+    )
 }
-
-export default Navbar;
+export default NavBar;

@@ -9,12 +9,11 @@ import API from '../../api/API';
 /* Handling of login functionality */
 
 const LoginComponent = (props: any) => {
-    const { user, setUser } = useContext(AuthContext);
+    const {setUser} = useContext(AuthContext);
     let inputRef = useRef<HTMLInputElement>(null);          // handles the input
     const [success, setSuccess] = useState(false);          // handles if the user has a successfull login
     const [error, setError] = useState(false);              // handles error
     const [loggedIn, setLoggedIn] = useState(false);        // handles if the user has a successfull login
-    const [loggedIn2fa, setLoggedIn2fa] = useState(false);  // handles if the user has a successfull login and have 2fa
     const [message, setMessage] = useState("");             // What message to show user if he/she get unsuccesfull login
     const [btnDisabled, setBtnDisabled] = useState(false);  // disables the button when user have an unsuccesful login
     const [input, setInput] = useState({                    // Input for email and password
@@ -32,6 +31,7 @@ const LoginComponent = (props: any) => {
     
     /* Checkes if the user entered a correct email and password for logged in */
     const handleSubmit = async (event: any) => {
+        setMessage('')
         event.preventDefault();
         try {
             let response = await API.login(input.email, input.password);
@@ -42,7 +42,14 @@ const LoginComponent = (props: any) => {
                 setLoggedIn(true);
             }
         } catch (error) {
-            if (error.response.status === 401 || error.response.status === 504) {
+              if(error.response.status === 401 ){
+                setError(true)
+                setMessage('User is not found')
+              } else if(error.response.status === 402 ){
+                setError(true)
+                setMessage('Invalid email or password')
+              }
+            /*if (error.response.status === 401 || error.response.status === 504) {
                 setError(true);
                 let errorData = error.response.data;
                 if (errorData.hasOwnProperty("timeOut") || errorData['numOfAttemptedLogins'] === 5) {
@@ -58,7 +65,7 @@ const LoginComponent = (props: any) => {
             if (error.response.status === 418) {
                 setSuccess(true);
                 setLoggedIn2fa(true);
-            }
+            }*/
         }
     }
 
@@ -126,6 +133,7 @@ const LoginComponent = (props: any) => {
     };
     getTimeLeft();
     (inputRef.current as any).focus();
+    // eslint-disable-next-line
   }, []);
 
 
@@ -136,7 +144,6 @@ const LoginComponent = (props: any) => {
   return (
     <>
       {success && loggedIn ? <Redirect to="/dashboard" /> : ""}
-      {success && loggedIn2fa ? <Redirect to="/2fa" /> : ""}
       <div id={styles.login_wrapper}>
         <h1>LOGIN</h1>
         <form onSubmit={handleSubmit}>

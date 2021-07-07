@@ -8,7 +8,7 @@ import axios, { AxiosRequestConfig } from "axios";
     use Axios straight away.
 */
 
-const unauthorizedOrForbidden = (error: any):void => {
+const unauthorizedOrForbidden = (error: any): void => {
     if (error.response.status === 401 || error.response.status === 403) {
         window.location.href = "/logout";
     }
@@ -159,6 +159,17 @@ const removeIneligbleDay = (id: number): any => axiosWrapper(`${process.env.REAC
     withCredentials: true,
 });
 
+const removeAccountRequest = (user_Id: number): any => axiosWrapper(`${process.env.REACT_APP_API_URL}/setting/removeaccountreq`, {
+    method: 'POST',
+    withCredentials: true,
+    data: {user_Id}
+});
+
+const getUsersByGroup  =(group_Id: number) : any => axiosWrapper(`${process.env.REACT_APP_API_URL}/user/${group_Id}` , {
+    method: 'GET',
+    withCredentials: true,
+});
+
 
 export default {
     login,
@@ -185,5 +196,7 @@ export default {
     vacationsDenied,
     vacationsPending,
     deleteAccount,
-    removeIneligbleDay
+    removeIneligbleDay,
+    removeAccountRequest,
+    getUsersByGroup
 };
